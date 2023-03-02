@@ -1,0 +1,54 @@
+---
+version: '2'
+services:
+  mongo_notif_db:
+    container_name: mongo_notif_db
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mo_notif_data:/mo_notif_data
+    networks:
+      - notif
+
+  api_notif:
+    build: ./api_notif
+    container_name: api_notif
+    env_file:
+      - .env
+    depends_on:
+      - mongo_notif_db
+    ports:
+      - '8000:8000'
+    networks:
+      - notif
+
+  # nginx:
+  #   image: nginx:1.20.1-alpine
+  #   container_name: nginx
+  #   volumes:
+  #     - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./deploy/configs_ugc:/etc/nginx/conf.d:ro
+  #     - /tmp/logs/nginx/:/var/log/nginx/
+  #   ports:
+  #     - "80:80"
+  #   # logging:
+  #   #   driver: gelf
+  #   #   options:
+  #   #     gelf-address: udp://127.0.0.1:5044
+  #   #     tag: nginx 
+  #   restart: always
+  #   depends_on:
+  #       - ugc_api
+  #   networks:
+  #     - ugc
+
+
+volumes:
+  mo_notif_data:
+
+networks:
+  notif:
+    driver: bridge
+  # logging:
+  #   driver: bridge
