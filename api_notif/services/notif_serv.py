@@ -50,8 +50,3 @@ def get_notif_service(
         mongo_storage: AsyncIOMotorClient = Depends(get_aio_motor),
     ) -> NotificationService:
     return NotificationService(mongo=mongo_storage)
-
-client = AsyncIOMotorClient('mongodb://localhost:27017')
-db = client['test_database']
-collect = client.db.collection
-q1 = collect.
