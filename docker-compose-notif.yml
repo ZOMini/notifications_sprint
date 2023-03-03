@@ -7,45 +7,64 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - mo_notif_data:/mo_notif_data
+      - mongo_notif_data:/mongo_notif_data
     networks:
       - notif
 
   api_notif:
-    build: ./api_notif
+    build: 
+      context: ./api_notif
+      dockerfile: Dockerfile
     container_name: api_notif
+    env_file:
+      - .env
+    environment:
+      - develop=False
+    depends_on:
+      - mongo_notif_db
+    ports:
+      - '8001:8001'
+    networks:
+      - notif
+
+  adminnotif:
+    # image: zomin/adminnotif
+    build: ./admin_notif
+    container_name: adminnotif
+    volumes:
+      - notif_static_volume:/admin_notif/static
     env_file:
       - .env
     depends_on:
       - mongo_notif_db
+    command: bash -c "python script.py && gunicorn admin_notif.wsgi --bind 0.0.0.0:8000"
     ports:
       - '8000:8000'
+    restart: on-failure
     networks:
       - notif
 
-  # nginx:
-  #   image: nginx:1.20.1-alpine
-  #   container_name: nginx
-  #   volumes:
-  #     - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
-  #     - ./deploy/configs_ugc:/etc/nginx/conf.d:ro
-  #     - /tmp/logs/nginx/:/var/log/nginx/
-  #   ports:
-  #     - "80:80"
-  #   # logging:
-  #   #   driver: gelf
-  #   #   options:
-  #   #     gelf-address: udp://127.0.0.1:5044
-  #   #     tag: nginx 
-  #   restart: always
-  #   depends_on:
-  #       - ugc_api
-  #   networks:
-  #     - ugc
 
+  nginx:
+    image: nginx:1.20.1-alpine
+    container_name: nginx
+    volumes:
+      - notif_static_volume:/admin_notif/static
+      - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/configs_notif:/etc/nginx/conf.d:ro
+      - /tmp/logs/nginx/:/var/log/nginx/
+    ports:
+      - "80:80"
+    restart: always
+    depends_on:
+        - api_notif
+        - adminnotif
+    networks:
+      - notif
 
 volumes:
-  mo_notif_data:
+  mongo_notif_data:
+  notif_static_volume:
 
 networks:
   notif:

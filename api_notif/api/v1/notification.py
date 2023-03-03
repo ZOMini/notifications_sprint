@@ -10,7 +10,7 @@ RESP400 = {"detail": "bad request"}
 RESP404 = {"detail": "not found"}
 
 
-@router.post('/', responses={400: RESP400})
+@router.post('/create_user', responses={400: RESP400})
 async def post_notif_create_user(
     data: RequestPostCreateUser,
     notif_serv: NotificationService = Depends(get_notif_service)) -> None:
@@ -18,16 +18,22 @@ async def post_notif_create_user(
     await notif_serv.post_notif_create_user(data)
 
 
-@router.get('/{user_id}', responses={400: RESP400, 404: RESP404})
+@router.get('/create_user/{user_id}', responses={400: RESP400, 404: RESP404})
 async def get_by_userid(
     user_id: str,
     notif_serv: NotificationService = Depends(get_notif_service)) -> list[ResponseGetCreateUser]:
-    """Ручка для разработки. Поиск по пользователю."""
-    result =  await notif_serv._get_by_userid(user_id)
-    return result
+    """Ручка для разработки. Поиск по пользователю.
+    Эта ручка может понадобится, а те что ниже удалю после ревью."""
+    return await notif_serv._get_by_userid(user_id)
 
 @router.delete('/', responses={400: RESP400})
 async def delete_all(
     notif_serv: NotificationService = Depends(get_notif_service)) -> None:
     """Ручка для разработки."""
     await notif_serv._delete_all()
+
+@router.get('/info', responses={400: RESP400})
+async def get_info(
+    notif_serv: NotificationService = Depends(get_notif_service)) -> dict:
+    """Ручка для разработки."""
+    return await notif_serv._get_info()

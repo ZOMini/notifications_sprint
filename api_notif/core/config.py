@@ -7,6 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Settings(BaseSettings):
     project_name: str = Field(...)
+    module_name: str = Field('Notification')
     debug: bool = Field(False)
     develop: bool = Field(False)
     log_level: str = Field('INFO')

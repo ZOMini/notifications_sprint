@@ -17,12 +17,12 @@ class NotificationService():
     def __init__(self, mongo: AsyncIOMotorClient):
         self.mongo = mongo
         self.db: AsyncIOMotorDatabase = self.mongo[settings.mongo_notif_db]
-        self.create_user: AsyncIOMotorCollection = self.db.create_user
+        self.admin_notif_createuser: AsyncIOMotorCollection = self.db.admin_notif_createuser
 
 
     async def post_notif_create_user(self, data: RequestPostCreateUser) -> None:
         try:
-            await self.create_user.insert_one(data.dict())
+            await self.admin_notif_createuser.insert_one(data.dict())
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, e.args)
 
@@ -31,7 +31,7 @@ class NotificationService():
             pipeline = [{'$match': {'user_id': user_id, 'status': False}},
                         {'$project': {'_id': 1, 'user_id': 1, 'username': 1, 'email': 1, 'status': 1}},]
             res = []
-            async for docs in self.create_user.aggregate(pipeline):
+            async for docs in self.admin_notif_createuser.aggregate(pipeline):
                 res.append(ResponseGetCreateUser(**docs, notif_id=docs['_id']))
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, e.args)
@@ -44,6 +44,14 @@ class NotificationService():
             await self.mongo.drop_database(settings.mongo_notif_db)
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, e.args)
+        
+    async def _get_info(self) -> dict:
+        db =  await self.mongo.list_database_names()
+        coll = await self.db.list_collection_names()
+        return coll
+        
+
+
 
 @lru_cache()
 def get_notif_service(

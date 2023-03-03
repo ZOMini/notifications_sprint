@@ -6,3 +6,5 @@
 
 # Полезности
   - docker-compose -f docker-compose-notif.yml up --build
+  - docker-compose -f docker-compose-ugc.yml -f docker-compose-log.yml up --build 
+  - docker-compose -f docker-compose-log.yml -f docker-compose-all_prev_serv.yml up --build 
