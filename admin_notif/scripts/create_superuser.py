@@ -11,7 +11,7 @@ username = os.environ.get('supername', 'superuser')
 email = os.environ.get('email', 'user@example.com')
 password = os.environ.get('superpass', 'password')
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')  # !!!
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'admin_notif.settings')  # !!!
 django.setup()
 application = get_wsgi_application()
 
