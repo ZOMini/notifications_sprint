@@ -43,7 +43,7 @@ def shutdown_session(exception=None):
 @app.after_request
 def add_request_id_and_logging(response: Response):
     app.logger.addFilter(RequestIdFilter('RequestIdFilter', response))
-    app.logger.info(request.get_data())
+    # app.logger.info(request.get_data())
     return response
 
 

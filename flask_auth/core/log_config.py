@@ -20,18 +20,17 @@ class RequestIdFilter(logging.Filter):
 
 
 def init_logs(app: Flask):
-    if not settings.EXT_LOGGING:
-        logstash_handler = logstash.LogstashHandler(settings.logstash_host, settings.logstash_port, version=1)
-        logger = logging.getLogger(app.name)
-        app.logger = logger
-        app.logger.addHandler(logstash_handler)
-        app.logger.setLevel(settings.log_level)
-    else:
-        uvicorn_access_logger = logging.getLogger("uvicorn.access")
-        uvicorn_access_logger.setLevel(settings.log_level)
-        ch = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s - %(module)s - %(funcName)s - line:%(lineno)d - %(levelname)s - %(message)s"
-        )
-        ch.setFormatter(formatter)
-        uvicorn_access_logger.addHandler(ch)
+    logstash_handler = logstash.LogstashHandler(settings.logstash_host, settings.logstash_port, version=1)
+    logger = logging.getLogger(app.name)
+    app.logger = logger
+    app.logger.addHandler(logstash_handler)
+    app.logger.setLevel(settings.log_level)
+    uvicorn_access_logger = logging.getLogger("uvicorn.access")
+    uvicorn_access_logger.setLevel(settings.log_level)
+    ch = logging.StreamHandler()
+    formatter = logging.Formatter(
+        "%(asctime)s - %(module)s - %(funcName)s - line:%(lineno)d - %(levelname)s - %(message)s"
+    )
+    ch.setFormatter(formatter)
+    uvicorn_access_logger.addHandler(ch)
+    app.logger.addHandler(ch)

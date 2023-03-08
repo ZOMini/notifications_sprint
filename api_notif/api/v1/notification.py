@@ -45,5 +45,6 @@ async def delete_all(
 @router.get('/info', responses={400: RESP400})
 async def get_info(
     notif_serv: NotificationService = Depends(get_notif_service)):
-    """Ручка для разработки."""
+    """Ручка для разработки. Список коллекций монго.
+    А то джанго/джонго там понаделало... - чтоб под рукой было."""
     return await notif_serv._get_info()

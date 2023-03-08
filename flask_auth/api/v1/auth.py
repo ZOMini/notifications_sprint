@@ -291,11 +291,16 @@ def get_user_by_id():
       responses:
         200:
           description: OK.
-        403:
-          description: FORBIDDEN
+          content:
+            application/json:
+              schema: GetByIDUserSchema
+        404:
+          description: NOT_FOUND
       tags:
         - Auth
     """
     id = request.args.get('id')
     user = UserServ.get_obj_by_id(id)
-    return jsonify(**user), HTTP.OK
+    if not user:
+        return jsonify(), HTTP.NOT_FOUND
+    return jsonify(user_id=user.id, username=user.name, email=user.email), HTTP.OK

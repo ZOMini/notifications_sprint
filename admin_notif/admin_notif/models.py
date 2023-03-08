@@ -14,9 +14,10 @@ class CreateUser(Model):
 
 class ReviewLike(Model):
     _id = ObjectIdField(verbose_name='notif_id')
-    user_id = models.CharField('review_id', max_length=255)
+    user_id = models.CharField('user_id', max_length=255)
     username = models.CharField('username', max_length=255, default='')
     email = models.CharField('email', max_length=255, default='')
+    ready = models.BooleanField('ready', default=False)
     status = models.BooleanField('status', default=False)
 
     def __str__(self):

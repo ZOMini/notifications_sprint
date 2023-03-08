@@ -45,7 +45,7 @@ class UserServ(User):
                 db_session.add(user)
                 db_session.commit()
                 notif_send(user.name, user.email, user.id)
-                return jsonify('User created. Login is email.'), HTTP.CREATED
+                return jsonify(f'User created. Login is email. id - {user.id}'), HTTP.CREATED
             except Exception as e:
                 db_session.rollback()
                 return jsonify(msg="Wrong email or password or name",

@@ -34,10 +34,11 @@ class RequestPostCreateUser(OrJsonModel):
 
 
 class RequestPostReviewLike(OrJsonModel):
-    '''Сначала только id, по приходу на ручку остальное, или в воркере...'''
+    '''Сначала только id, по приходу на ручку остальное или в воркере...'''
     user_id: str
     username: str = ""
     email: str = ""
+    ready: bool = False
     status: bool = False
 
     class Config:

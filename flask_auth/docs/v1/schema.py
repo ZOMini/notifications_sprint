@@ -50,3 +50,7 @@ class PutRoleSchema(Schema):
 class ListRolesSchema(Schema):
     roles = fields.List(fields.Str(description='List All Roles', load_default='admin'))
 
+class GetByIDUserSchema(Schema):
+    name = fields.Str(description="Name", load_default='admin2')
+    email = fields.Email(description="Email", load_default='ee-12@ya.ru')
+    user_id = fields.Str(description="User id", load_default='253d8eb7-9b38-465a-976b-0972c1ba0fa1')
