@@ -2,6 +2,14 @@ import runpy
 import sys
 
 # Миграции Django.
+sys.argv = ['', 'makemigrations']
+runpy.run_path('./manage.py', run_name='__main__')
+
+# Миграции Django.
+sys.argv = ['', 'makemigrations', 'admin_notif']
+runpy.run_path('./manage.py', run_name='__main__')
+
+# Миграции Django.
 sys.argv = ['', 'migrate']
 runpy.run_path('./manage.py', run_name='__main__')
 

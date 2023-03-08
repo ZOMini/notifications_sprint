@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import Field
 
-from api.v1.models import RequestPostCreateUser
+from api.v1.models import RequestPostCreateUser, RequestPostReviewLike
 from api.v1.response import ResponseGetCreateUser
 from services.notif_serv import NotificationService, get_notif_service
 
@@ -18,6 +18,14 @@ async def post_notif_create_user(
     await notif_serv.post_notif_create_user(data)
 
 
+@router.post('/rewiew_like', responses={400: RESP400})
+async def post_notif_rewiew_like(
+    data: RequestPostReviewLike,
+    notif_serv: NotificationService = Depends(get_notif_service)) -> None:
+    """Постит лайк ревьюва."""
+    await notif_serv.post_notif_review_like(data)
+
+
 @router.get('/create_user/{user_id}', responses={400: RESP400, 404: RESP404})
 async def get_by_userid(
     user_id: str,
@@ -26,14 +34,16 @@ async def get_by_userid(
     Эта ручка может понадобится, а те что ниже удалю после ревью."""
     return await notif_serv._get_by_userid(user_id)
 
+
 @router.delete('/', responses={400: RESP400})
 async def delete_all(
     notif_serv: NotificationService = Depends(get_notif_service)) -> None:
     """Ручка для разработки."""
     await notif_serv._delete_all()
 
+
 @router.get('/info', responses={400: RESP400})
 async def get_info(
-    notif_serv: NotificationService = Depends(get_notif_service)) -> dict:
+    notif_serv: NotificationService = Depends(get_notif_service)):
     """Ручка для разработки."""
     return await notif_serv._get_info()

@@ -63,7 +63,8 @@ class Settings(BaseSettings):
     logstash_host: str = Field(...)
     logstash_port: int = Field(...)
     log_level: str = Field('INFO')
-
+    
+    notif_api_url: str = Field('http://api_notif:8201')
 
     class Config:
         env_file = './.env'

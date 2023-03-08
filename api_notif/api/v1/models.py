@@ -31,3 +31,18 @@ class RequestPostCreateUser(OrJsonModel):
                 "email": "ee-2233@mail.ru"
             }
         }
+
+
+class RequestPostReviewLike(OrJsonModel):
+    '''Сначала только id, по приходу на ручку остальное, или в воркере...'''
+    user_id: str
+    username: str = ""
+    email: str = ""
+    status: bool = False
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27"
+            }
+        }

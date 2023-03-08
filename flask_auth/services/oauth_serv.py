@@ -3,13 +3,14 @@ from http import HTTPStatus as HTTP
 
 from authlib.integrations.flask_client import FlaskOAuth2App, OAuth
 from flask import Response, current_app, jsonify, request
+from models.db_models import Auth, User
 from pydantic import BaseModel
 from werkzeug.exceptions import BadRequest, NotFound
 
 from core.config import settings
 from db.db import db_session
-from models.db_models import Auth, User
 from services.models_serv import AuthServ, UserServ
+from services.notif_serv import notif_send
 from services.utils import generate_password
 
 
@@ -89,6 +90,7 @@ class OauthServ:
                 db_session.add(user)
                 db_session.commit()
                 # Тут отправляем письмо, видимо как дойдем до отложенных задач.
+                notif_send(user.name, user.email, user.id)
                 logging.error('INFO %s created - email sent.', user)
             except Exception as e:
                 db_session.rollback()

@@ -272,3 +272,30 @@ def check_user_is_subscriber():
         - Auth
     """
     return jsonify(), HTTP.OK
+
+
+@auth.route("/get_user_by_id", methods=["GET"])
+def get_user_by_id():
+    """
+    ---
+    get:
+      summary: get_user
+      description: Ручка для микросервисов.
+      parameters:
+        - name: id
+          in: query
+          description: ID пользователя
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK.
+        403:
+          description: FORBIDDEN
+      tags:
+        - Auth
+    """
+    id = request.args.get('id')
+    user = UserServ.get_obj_by_id(id)
+    return jsonify(**user), HTTP.OK

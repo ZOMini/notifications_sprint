@@ -14,3 +14,4 @@ opentelemetry-sdk==1.10.0
 opentelemetry-exporter-jaeger==1.10.0
 opentelemetry-instrumentation-fastapi==0.29b0
 python-logstash==0.4.8
+aiohttp==3.8.3

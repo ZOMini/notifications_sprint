@@ -1,3 +1,4 @@
+import logging
 from functools import lru_cache
 
 from fastapi import Depends, HTTPException, status
@@ -18,11 +19,17 @@ class NotificationService():
         self.mongo = mongo
         self.db: AsyncIOMotorDatabase = self.mongo[settings.mongo_notif_db]
         self.admin_notif_createuser: AsyncIOMotorCollection = self.db.admin_notif_createuser
-
+        self.admin_notif_reviewlike: AsyncIOMotorCollection = self.db.admin_notif_reviewlike
 
     async def post_notif_create_user(self, data: RequestPostCreateUser) -> None:
         try:
             await self.admin_notif_createuser.insert_one(data.dict())
+        except Exception as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, e.args)
+
+    async def post_notif_review_like(self, data: RequestPostCreateUser) -> None:
+        try:
+            await self.admin_notif_reviewlike.insert_one(data.dict())
         except Exception as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, e.args)
 
@@ -48,6 +55,8 @@ class NotificationService():
     async def _get_info(self) -> dict:
         db =  await self.mongo.list_database_names()
         coll = await self.db.list_collection_names()
+        for i in coll:
+            logging.error(i)
         return coll
         
 

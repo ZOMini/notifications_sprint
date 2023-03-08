@@ -1,4 +1,3 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from djongo.models import Model, ObjectIdField
 
@@ -8,20 +7,17 @@ class CreateUser(Model):
     user_id = models.CharField('user_id', max_length=255)
     username = models.CharField('username', max_length=255)
     email = models.CharField('email', max_length=255)
-    status = models.BooleanField('status')
+    status = models.BooleanField('status', default=False)
 
     def __str__(self):
         return str(self._id)
 
-class LikeComment(Model):
+class ReviewLike(Model):
     _id = ObjectIdField(verbose_name='notif_id')
-    review_id = models.CharField('review_id', max_length=255, )
-    like_rating = models.FloatField('like_rating',
-                                    validators=[MinValueValidator(0),
-                                                MaxValueValidator(10)])
-    username = models.CharField('username', max_length=255)
-    email = models.CharField('email', max_length=255)
-    status = models.BooleanField('status')
+    user_id = models.CharField('review_id', max_length=255)
+    username = models.CharField('username', max_length=255, default='')
+    email = models.CharField('email', max_length=255, default='')
+    status = models.BooleanField('status', default=False)
 
     def __str__(self):
         return str(self._id)

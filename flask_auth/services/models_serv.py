@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from http import HTTPStatus as HTTP
 from typing import Any
@@ -10,11 +11,12 @@ from flask_jwt_extended import (
     get_current_user,
     verify_jwt_in_request
 )
+from models.db_models import Auth, Role, User
 from sqlalchemy import and_
 
 from db.db import db_session
 from db.redis import jwt_redis_blocklist
-from models.db_models import Auth, Role, User
+from services.notif_serv import notif_send
 from services.utils import token_expire_time, user_agent_hash
 
 
@@ -28,6 +30,11 @@ class UserServ(User):
         return db_session.query(User).filter(User.name == name).one_or_none()
 
     @classmethod
+    def get_obj_by_id(cls, id: str) -> 'User':
+        '''Отдает обект по id.'''
+        return db_session.query(User).filter(User.id == id).one_or_none()
+
+    @classmethod
     def create_user(cls, name: str, email: str, password: str, password2: str) -> tuple[Response, HTTP]:
         '''Создаем User.'''
         if password == password2 and len(password) >= 8:
@@ -37,6 +44,7 @@ class UserServ(User):
                             password=password)
                 db_session.add(user)
                 db_session.commit()
+                notif_send(user.name, user.email, user.id)
                 return jsonify('User created. Login is email.'), HTTP.CREATED
             except Exception as e:
                 db_session.rollback()

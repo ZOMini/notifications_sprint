@@ -13,4 +13,8 @@
 # Полезности
   - docker-compose -f docker-compose-notif.yml up --build
   - docker-compose -f docker-compose-ugc.yml -f docker-compose-log.yml up --build 
-  - docker-compose -f docker-compose-log.yml -f docker-compose-all_prev_serv.yml up --build 
+  - docker-compose -f docker-compose-log.yml -f docker-compose-all_prev_serv.yml up --build
+  - для разработки auth+logs+notif:
+    - docker-compose -f docker-compose-notif.yml -f docker-compose-all_prev_serv.yml -f docker-compose-log.yml up --build
+  - для разработки все сервисы(16gb+ RAM):
+    - docker-compose -f docker-compose-notif.yml -f docker-compose-all_prev_serv.yml -f docker-compose-log.yml -f docker-compose-ugc.yml up --build

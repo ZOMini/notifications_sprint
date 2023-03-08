@@ -116,6 +116,7 @@ services:
     networks:
       - auth_movie_admin
       - logging
+      - notif #  !!!!!!!
 
   nginx:
     container_name: nginx
@@ -192,4 +193,6 @@ networks:
   auth_movie_admin:
     driver: bridge
   logging:
+    driver: bridge
+  notif: #  !!!!!!!!
     driver: bridge

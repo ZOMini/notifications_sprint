@@ -1,6 +1,8 @@
+import logging
 from functools import lru_cache
 from typing import Any
 
+import aiohttp
 from bson.objectid import ObjectId
 from fastapi import Depends, HTTPException, status
 from motor.motor_asyncio import (
@@ -52,7 +54,20 @@ class ReviewService():
         _id: InsertOneResult = await self.review_like.insert_one(data_dict)
         # Ниже увеличиваем количество и сумму bалов для rewiew, получившего оценку.
         await self.review.update_one({'_id': ObjectId(data.review_id)}, {'$inc': {'summ_like': data.value, 'count_like': 1}})
+        await self._send_notif_review_like(data.review_id)
         return {'id': _id.inserted_id}
+
+    async def _send_notif_review_like(self, data: PostRequestReviewLike):
+        """Формируем пост запрос Notif."""
+        review = await self.get_review(data.review_id)
+        async with aiohttp.ClientSession() as client:
+            resp = await client.post(settings.notif_api_url,
+                                     data={'user_id': review['user_id']})
+            if resp.status != 200 or resp.status != 201:
+                logging.error('ERROR - UGC / NOTIF - status %s', resp.status)
+            else:
+                logging.error('INFO - UGC / NOTIF - status %s', resp.status)
+        
 
     async def _put_review_like(self, data: PostRequestReviewLike) -> HTTPException | dict[str, Any]:
         """Пока не раbочий метод. Лайкнуть ревьюв можно один раз."""

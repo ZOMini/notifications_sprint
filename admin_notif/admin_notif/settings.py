@@ -11,6 +11,8 @@ SECRET_KEY = 'django-insecure-d7#7wv1w*^8&zb_womidd597ui_z+3wa2hxb!6z(k8u5gx*10%
 
 DEBUG = True
 
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:82']
+
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -93,7 +95,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EXT_LOGGING = os.environ.get('EXT_LOGGING', False)
+EXT_LOGGING = os.environ.get('EXT_LOGGING_NOTIF', False)
 if not EXT_LOGGING:
     logging.error(EXT_LOGGING)
     LOGGER_HOST = os.environ.get('LOGSTASH_HOST', 'logstash')

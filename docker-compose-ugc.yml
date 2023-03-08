@@ -45,6 +45,7 @@ services:
       - '8000:8000'
     networks:
       - ugc
+      - notif
 
   zookeeper:
     image: zookeeper:3.5
@@ -134,15 +135,15 @@ services:
       - ugc
       - logging
 
-  nginx:
+  nginx_ugc:
     image: nginx:1.20.1-alpine
-    container_name: nginx
+    container_name: nginx_ugc
     volumes:
       - ./deploy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./deploy/configs_ugc:/etc/nginx/conf.d:ro
       - /tmp/logs/nginx/:/var/log/nginx/
     ports:
-      - "80:80"
+      - "81:81"
     restart: always
     depends_on:
         - ugc_api
@@ -157,4 +158,6 @@ networks:
   ugc:
     driver: bridge
   logging:
+    driver: bridge
+  notif: #  !!!!!!!!
     driver: bridge
