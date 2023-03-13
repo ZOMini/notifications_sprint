@@ -33,6 +33,8 @@ class RequestPostCreateUser(OrJsonModel):
         }
 
 
+
+
 class RequestPostReviewLike(OrJsonModel):
     '''Сначала только id, по приходу на ручку остальное или в воркере...'''
     user_id: str
