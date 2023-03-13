@@ -9,15 +9,16 @@ from config import settings as SETT
 credentials = pika.PlainCredentials(username=SETT.RABBIT_USER, password=SETT.RABBIT_PASS)
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host=HOST, credentials=credentials))
+    pika.ConnectionParameters(host=SETT.RABBIT_HOST, credentials=credentials))
 channel = connection.channel()
 channel.queue_bind(exchange=SETT.EXCHANGE, queue=SETT.INSTANT_QUEUE)
 
 
 def callback(ch, method, properties, body):
+
     notification = InstantNotificationEvent.parse_raw(body)
     if notification.event_type == EventTypeEnum.user_create :
-        db_session.add(Notification("user_id", "user_create", notification_data=None, ))
+        db_session.add(Notification(notification.user_id, "user_create", notification_data=None, ))
         db_session.commit()
     elif notification.event_type == EventTypeEnum.change_password:
         print('password_changed')

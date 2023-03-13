@@ -21,7 +21,7 @@ class EventTypeEnum(str, Enum):
 
 
 class InstantNotificationEvent(OrJsonModel):
-    user_id: str
+    user_id: UUID4
     event_type: EventTypeEnum
     datetime: datetime
 
@@ -29,7 +29,7 @@ class InstantNotificationEvent(OrJsonModel):
         schema_extra = {
             "example": {
                 "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
-                "username": "Vet",
-                "email": "ee-2233@mail.ru"
+                "event_type": "user_create",
+                "datetime": "2023-03-13 21:12:30.511956"
             }
         }

@@ -12,6 +12,20 @@
   "vhosts": [{
     "name": "/"
   }],
+"permissions":[{
+      "user":"consumer",
+      "vhost":"/",
+      "configure":".*",
+      "write":".*",
+      "read":".*"
+    },
+{
+      "user":"admin",
+      "vhost":"/",
+      "configure":".*",
+      "write":".*",
+      "read":".*"
+    }],
 "queues": [
     {
         "name": "instant_events",
