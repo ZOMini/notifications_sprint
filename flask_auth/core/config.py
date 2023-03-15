@@ -1,11 +1,19 @@
 from datetime import timedelta
 
+import pika
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
+    EXCHANGE = Field('notifications')
+    INSTANT_QUEUE = Field('instant_events')
+    ROUTING_KEY = Field('instant_events')
+    RABBIT_USER = Field('auth_publisher')
+    RABBIT_PASS = Field('qweqwe')
+    RABBIT_HOST = Field('localhost')
+    
     POSTGRES_DB: str = Field(...)
     POSTGRES_USER: str = Field(...)
     POSTGRES_PASSWORD: str = Field(...)
@@ -85,3 +93,9 @@ app.config['JWT_SECRET_KEY'] = settings.JWT_SECRET_KEY
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = REFRESH_EXPIRES
 jwt = JWTManager(app)
+
+credentials = pika.PlainCredentials(username=settings.RABBIT_USER, password=settings.RABBIT_PASS)
+
+def rabbit_conn(credentials=credentials):
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host=settings.RABBIT_HOST, credentials=credentials))
+    return connection

@@ -90,7 +90,7 @@ class OauthServ:
                 db_session.add(user)
                 db_session.commit()
                 # Тут отправляем письмо, видимо как дойдем до отложенных задач.
-                notif_send(user.name, user.email, user.id)
+                # notif_send(user.name, user.email, user.id)
                 logging.error('INFO %s created - email sent.', user)
             except Exception as e:
                 db_session.rollback()

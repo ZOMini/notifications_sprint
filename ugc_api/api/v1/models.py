@@ -23,7 +23,7 @@ class RequestKafka(OrJsonModel):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338",
                 "value": 161111111
             }
@@ -38,7 +38,7 @@ class ItemKafka(RequestKafka):
         schema_extra = {
             "example": {
                 "topic": "views",
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338",
                 "value": 161111111,
                 "time_stamp": "161112222"
@@ -59,7 +59,7 @@ class PostRequestLike(OrJsonModel):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338",
                 "value": 10
             }
@@ -71,7 +71,7 @@ class DeleteRequestLike(PostRequestLike):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338"
             }
         }
@@ -89,7 +89,7 @@ class PostRequestReview(OrJsonModel):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338",
                 "text": "nice movie",
                 "value": 10
@@ -106,7 +106,7 @@ class PostRequestReviewLike(OrJsonModel):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa28",
                 "review_id": "63f000dc052663091532fc51",
                 "value": 10
             }
@@ -120,7 +120,7 @@ class PostRequestBookmark(OrJsonModel):
     class Config:
         schema_extra = {
             "example": {
-                "user_id": "500271",
+                "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "movie_id": "tt0120338",
             }
         }

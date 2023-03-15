@@ -1,8 +1,11 @@
 import os
 import smtplib
 from email.message import EmailMessage
+
 from jinja2 import Environment, FileSystemLoader
+
 from config import settings as SETT
+
 
 def send_mail(to:str, name:str, data:str, template:str):
     server = smtplib.SMTP_SSL(SETT.SMTP_HOST, SETT.SMTP_PORT)

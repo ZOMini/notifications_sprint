@@ -1,7 +1,9 @@
+from datetime import datetime as dt
+
 import orjson
 from pydantic import UUID4, BaseModel
-from enum import Enum
-from datetime import datetime
+
+from db_models import NotificationTypesEnum
 
 
 def orjson_dumps(v, *, default):
@@ -15,21 +17,17 @@ class OrJsonModel(BaseModel):
         json_dumps = orjson_dumps
 
 
-class EventTypeEnum(str, Enum):
-    user_create = 'user_create'
-    change_password = 'change_password'
-
-
 class InstantNotificationEvent(OrJsonModel):
     user_id: UUID4
-    event_type: EventTypeEnum
-    datetime: datetime
+    event_type: NotificationTypesEnum
+    user_name: str = None
+    user_email: str = None
 
     class Config:
         schema_extra = {
             "example": {
                 "user_id": "dadd35b1-7b11-4aa1-a871-61fddb4faa27",
                 "event_type": "user_create",
-                "datetime": "2023-03-13 21:12:30.511956"
+                # "datetime": "2023-03-13 21:12:30.511956"
             }
         }

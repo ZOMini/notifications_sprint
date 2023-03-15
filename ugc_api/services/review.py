@@ -1,3 +1,4 @@
+import json
 import logging
 from functools import lru_cache
 from typing import Any
@@ -14,7 +15,7 @@ from pymongo.results import InsertOneResult, UpdateResult
 
 from api.v1.models import PostRequestReview, PostRequestReviewLike
 from api.v1.pagination import PaginatedParams
-from core.config import settings
+from core.config import rabbit_conn, settings
 from db.mongo import get_aio_motor
 from services.like import LikeService, PostRequestLike
 
@@ -59,14 +60,17 @@ class ReviewService():
 
     async def _send_notif_review_like(self, data: PostRequestReviewLike):
         """Формируем пост запрос Notif."""
-        review = await self.get_review(data.review_id)
-        async with aiohttp.ClientSession() as client:
-            resp = await client.post(settings.notif_api_url,
-                                     data={'user_id': review['user_id']})
-            if resp.status != 200 or resp.status != 201:
-                logging.error('ERROR - UGC / NOTIF - status %s', resp.status)
-            else:
-                logging.error('INFO - UGC / NOTIF - status %s', resp.status)
+        review = await self.get_review(data)
+        try:
+            print(review)
+            body = {'user_id': str(review['user_id']), 'event_type': 'received_likes'}
+            connection = rabbit_conn()
+            channel = connection.channel()
+            channel.basic_publish(settings.EXCHANGE, settings.ROUTING_KEY, json.dumps(body))
+            logging.error('RABBIT UGC - OK')
+            connection.close()
+        except Exception as e:
+            logging.error('RABBIT UGC ERROR - %s', e)
         
 
     async def _put_review_like(self, data: PostRequestReviewLike) -> HTTPException | dict[str, Any]:

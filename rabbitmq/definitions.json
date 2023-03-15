@@ -1,6 +1,12 @@
-{
-
-  "users": [{
+{"users":[{
+    "name": "ugc_publisher",
+    "password": "qweqwe",
+    "tags": ""
+  }, {
+    "name": "auth_publisher",
+    "password": "qweqwe",
+    "tags": ""
+  }, {
     "name": "admin",
     "password": "12345678",
     "tags": "administrator"
@@ -13,13 +19,24 @@
     "name": "/"
   }],
 "permissions":[{
+      "user":"ugc_publisher",
+      "vhost":"/",
+      "configure":".*",
+      "write":".*",
+      "read":".*"
+    }, {
+      "user":"auth_publisher",
+      "vhost":"/",
+      "configure":".*",
+      "write":".*",
+      "read":".*"
+    }, {
       "user":"consumer",
       "vhost":"/",
       "configure":".*",
       "write":".*",
       "read":".*"
-    },
-{
+    }, {
       "user":"admin",
       "vhost":"/",
       "configure":".*",

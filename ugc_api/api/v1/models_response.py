@@ -6,6 +6,7 @@ from api.v1.models import OrJsonModel
 
 class PostResponse(OrJsonModel):
     id: ObjectIdAsStr
+    # id: str
 
     class Config:
         schema_extra = {

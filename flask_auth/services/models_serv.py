@@ -1,4 +1,6 @@
 import asyncio
+import json
+import logging
 from datetime import datetime
 from http import HTTPStatus as HTTP
 from typing import Any
@@ -14,6 +16,8 @@ from flask_jwt_extended import (
 from models.db_models import Auth, Role, User
 from sqlalchemy import and_
 
+from core.config import rabbit_conn
+from core.config import settings as SETT
 from db.db import db_session
 from db.redis import jwt_redis_blocklist
 from services.notif_serv import notif_send
@@ -44,7 +48,16 @@ class UserServ(User):
                             password=password)
                 db_session.add(user)
                 db_session.commit()
-                notif_send(user.name, user.email, user.id)
+                # notif_send(user.name, user.email, user.id)
+                try:
+                    body = {'user_id': str(user.id), 'user_name': user.name, 'user_email': user.email, 'event_type': 'user_create'}
+                    connection = rabbit_conn()
+                    channel = connection.channel()
+                    channel.basic_publish(SETT.EXCHANGE, SETT.ROUTING_KEY, json.dumps(body))
+                    logging.error('RABBIT AUTH - OK')
+                    connection.close()
+                except Exception as e:
+                    logging.error('RABBIT AUTH ERROR - %s', e)
                 return jsonify(f'User created. Login is email. id - {user.id}'), HTTP.CREATED
             except Exception as e:
                 db_session.rollback()
@@ -65,6 +78,15 @@ class UserServ(User):
                     user.password = user.password_hash(password, user.email)
                     db_session.add(user)
                     db_session.commit()
+                    try:
+                        body = {'user_id': str(user.id), 'user_name': user.name, 'user_email': user.email, 'event_type': 'change_password'}
+                        connection = rabbit_conn()
+                        channel = connection.channel()
+                        channel.basic_publish(SETT.EXCHANGE, SETT.ROUTING_KEY, json.dumps(body))
+                        logging.error('RABBIT AUTH UPD - OK')
+                        connection.close()
+                    except Exception as e:
+                        logging.error('RABBIT AUTH UPD ERROR - %s', e)
                     return jsonify('User update.'), HTTP.ACCEPTED
                 else:
                     return jsonify('password != password2 or length < 8'), HTTP.BAD_REQUEST

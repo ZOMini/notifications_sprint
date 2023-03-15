@@ -6,9 +6,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 sys.path.append(f'{BASE_DIR}\\flask_auth')
 
-from core.tracer import configure_tracer
+# from core.tracer import configure_tracer
 
-configure_tracer()
+# configure_tracer()
 
 
 from docs.app import init_docs
@@ -19,9 +19,9 @@ from api.v1.auth import auth
 from api.v1.oauth import oauth
 from api.v1.role import role
 from core.config import app, settings
-from core.log_config import RequestIdFilter, init_logs
+# from core.log_config import RequestIdFilter, init_logs
 from core.oauth import init_oauth
-from core.tracer import init_tracer
+# from core.tracer import init_tracer
 from db.db import DATA_BASE, db_session, init_db
 from services.jwt import *  # Регистрируем JWT
 
@@ -33,8 +33,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATA_BASE
 migrate = Migrate(app, db_session)
 init_docs()
 init_oauth(app)
-init_tracer(app)
-init_logs(app)
+# init_tracer(app)
+# init_logs(app)
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -42,7 +42,7 @@ def shutdown_session(exception=None):
 
 @app.after_request
 def add_request_id_and_logging(response: Response):
-    app.logger.addFilter(RequestIdFilter('RequestIdFilter', response))
+    # app.logger.addFilter(RequestIdFilter('RequestIdFilter', response))
     # app.logger.info(request.get_data())
     return response
 
