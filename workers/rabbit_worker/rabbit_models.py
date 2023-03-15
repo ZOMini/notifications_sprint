@@ -1,5 +1,3 @@
-from datetime import datetime as dt
-
 import orjson
 from pydantic import UUID4, BaseModel
 

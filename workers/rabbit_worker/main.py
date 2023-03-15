@@ -1,8 +1,6 @@
 import logging
-from datetime import datetime
 
 import pika
-from mail_sender import send_mail
 from rabbit_models import InstantNotificationEvent, NotificationTypesEnum
 from text_msg import MSG_TXT
 
