@@ -2,6 +2,7 @@ from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
+    AUTH_URL = Field('http://127.0.0.1:5000/auth/api/v1/get_user_by_id')
     POSTGRES_DB = Field("notif_db")
     POSTGRES_USER = Field("app")
     POSTGRES_PASSWORD = Field("123qwe")

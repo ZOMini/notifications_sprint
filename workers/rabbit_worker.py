@@ -1,7 +1,7 @@
 import logging
 
 import pika
-from rabbit_models import InstantNotificationEvent, NotificationTypesEnum
+from rabbit_models import NotificationEvent, NotificationTypesEnum
 from text_msg import MSG_TXT
 
 from config import settings as SETT
@@ -15,7 +15,7 @@ channel.queue_bind(exchange=SETT.EXCHANGE, queue=SETT.INSTANT_QUEUE)
 
 
 def callback(ch, method, properties, body):
-    notification = InstantNotificationEvent.parse_raw(body)
+    notification = NotificationEvent.parse_raw(body)
     if notification.event_type == NotificationTypesEnum.user_create :
         db_session.add(Notification(notification.user_id, 'user_create',
                                     notification_text=MSG_TXT['user_create'],

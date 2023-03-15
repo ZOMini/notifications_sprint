@@ -15,7 +15,7 @@ class OrJsonModel(BaseModel):
         json_dumps = orjson_dumps
 
 
-class InstantNotificationEvent(OrJsonModel):
+class NotificationEvent(OrJsonModel):
     user_id: UUID4
     event_type: NotificationTypesEnum
     user_name: str = None

@@ -18,6 +18,8 @@
     - ugc_api/python main.py
     - workers/rabbit_worker/python main.py
     - делаю еще 2-а вокера, обогатителя данными и емаил сендера
+  - еще 16.03
+    - добавил воркера который обогощает данными ивенты от ugc
 # Полезности
   - docker-compose -f docker-compose-notif_new.yml up --build
   - смотрим notif_db в шеле контейнера:

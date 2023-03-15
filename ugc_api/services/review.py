@@ -62,7 +62,7 @@ class ReviewService():
         """Формируем пост запрос Notif."""
         review = await self.get_review(data)
         try:
-            print(review)
+            logging.error('REVIEW USER_ID - %s', review['user_id'])
             body = {'user_id': str(review['user_id']), 'event_type': 'received_likes'}
             connection = rabbit_conn()
             channel = connection.channel()

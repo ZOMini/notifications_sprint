@@ -1,12 +1,11 @@
 import time
 
 from mail_sender import send_mail
+from config import settings as SETT
+from db_conn import db_session
+from db_models import Notification
 from schedule import every, repeat, run_pending
 from sqlalchemy import or_
-
-from workers.rabbit_worker.config import settings as SETT
-from workers.rabbit_worker.db_conn import db_session
-from workers.rabbit_worker.db_models import Notification
 
 
 @repeat(every().second)
