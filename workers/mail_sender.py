@@ -4,7 +4,7 @@ from email.message import EmailMessage
 
 from jinja2 import Environment, FileSystemLoader
 
-from rabbit_worker.config import settings as SETT
+from config import settings as SETT
 
 
 def send_mail(to:str, name:str, data:str, template:str):

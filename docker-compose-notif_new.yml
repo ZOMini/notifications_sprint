@@ -67,6 +67,22 @@ services:
       - rabbitmq
     restart: on-failure
 
+  senderworker:
+    build: 
+      context: ./workers
+      dockerfile: Dockerfile_sender
+    container_name: senderworker
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_DB=notif_db
+      - POSTGRES_HOST=notif_db
+    depends_on:
+      - notif_db
+    networks:
+      - rabbitmq
+    restart: on-failure
+
   auth_db:
     image: postgres:13-alpine
     container_name: auth_db

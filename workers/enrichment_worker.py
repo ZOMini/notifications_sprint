@@ -24,7 +24,7 @@ async def enrich_received_likes():
     for n in notifications:
         logging.error('ENRICH NOTIF %s', n.user_id)
         try:
-            async with aiohttp.ClientSession() as client:
+            async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=25, loop=asyncio.get_event_loop())) as client:
                 async with client.get(f'{SETT.AUTH_URL}?id={n.user_id}') as resp:
                     if resp.status == 200:
                         logging.error('ENRICH - %s', resp.status)
@@ -42,4 +42,4 @@ async def enrich_received_likes():
 
 while True:
     asyncio.run(enrich_received_likes())
-    time.sleep(1)
+    time.sleep(5)
