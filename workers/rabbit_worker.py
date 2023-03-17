@@ -22,7 +22,6 @@ def callback(ch, method, properties, body):
                                     user_name=notification.user_name,
                                     user_email=notification.user_email,
                                     ready=True))
-        logging.error('INFO NOTIF user_create - %s - %s', notification.user_name, notification.user_email)
     elif notification.event_type == NotificationTypesEnum.change_password:
         db_session.add(Notification(notification.user_id, 'change_password',
                                     notification_text=MSG_TXT['change_password'],
@@ -35,7 +34,6 @@ def callback(ch, method, properties, body):
                                     user_name=notification.user_name,
                                     user_email=notification.user_email,
                                     ready=False))
-        logging.error('INFO NOTIF received_likes - %s - %s', notification.event_type, notification.user_id)
     db_session.commit()
 
 init_db()
