@@ -25,13 +25,13 @@ class Notification(Base):
                 unique=True,
                 nullable=False)
     notification_type = Column(Enum(NotificationTypesEnum), nullable=False)
-    notification_text = Column(String, nullable=True)
+    notification_text = Column(String(511), nullable=True)
     notification_data = Column(DateTime, default=datetime.datetime.now())
     status = Column(Boolean, default=False, nullable=False)  # Выполнено ли. Т.е. если True то отправлено.
     ready = Column(Boolean, default=False, nullable=False)  # Готово ли к отправке.
     user_id = Column(UUID(as_uuid=True))
-    user_name = Column(String, nullable=True)
-    user_email = Column(String, nullable=True)  # В нашем случае email, все описанные "notification_type", на данный момент, для работы с email.
+    user_name = Column(String(127), nullable=True)
+    user_email = Column(String(127), nullable=True)  # В нашем случае email, все описанные "notification_type", на данный момент, для работы с email.
 
     def __init__(self, user_id: UUID,
                  notification_type: str,
@@ -59,10 +59,10 @@ class AdminNotifEvent(Base):
                 unique=True,
                 nullable=False)
     notification_type = Column(Enum(NotificationTypesEnum), nullable=False)
-    notification_text = Column(String, nullable=True)
+    notification_text = Column(String(511), nullable=True)
     notification_data = Column(DateTime, default=datetime.datetime.now())
     status = Column(Boolean, default=False, nullable=False)
-    user_ids = Column(ARRAY(String))
+    user_ids = Column(ARRAY(String(63)))
 
     def __init__(self, user_ids: list,
                  notification_type: str,

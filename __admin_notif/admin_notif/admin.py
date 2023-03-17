@@ -21,9 +21,3 @@ class ResponseGetReviewLikeAdmin(admin.ModelAdmin):
 class ResponseGetAdminEventAdmin(admin.ModelAdmin):
     list_display = ('_id', 'user_ids', 'status', 'ready')
     empty_value_display = '-empty-'
-
-# @admin.register(User_obj)
-# class ResponseGetUser_objAdmin(admin.ModelAdmin):
-#     list_display = ('_id',)
-#     empty_value_display = '-empty-'
-# admin.site.register(AdminEvent)

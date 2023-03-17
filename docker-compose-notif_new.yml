@@ -175,6 +175,16 @@ services:
     networks:
       - rabbitmq
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+    networks:
+      - rabbitmq
+
 volumes:
   notif_db_data:
   auth_db_data:

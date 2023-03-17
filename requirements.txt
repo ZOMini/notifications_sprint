@@ -18,3 +18,4 @@ flask==2.2.3
 Flask-Migrate==4.0.2
 motor==3.1.1
 django-better-admin-arrayfield==1.4.2
+mailhog==0.1.0

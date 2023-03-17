@@ -2,12 +2,14 @@ import logging
 import time
 
 from mail_sender import send_mail
+from mailhog import Mailhog
 from schedule import every, repeat, run_pending
 from sqlalchemy import or_
 
 from db_conn import db_session
 from db_models import Notification, NotificationTypesEnum
 
+mailhog = Mailhog()
 
 @repeat(every().second)
 def instant_notification_job():
@@ -18,11 +20,12 @@ def instant_notification_job():
         Notification.status == False)
     for n in notifications:
         try:
-            # send_mail(n.user_email, n.user_name, n.notification_text, template='instant')
             logging.error("%s %s %s %s", n.user_email, n.user_name, n.notification_text, 'inst send mail')
+            send_mail(n.user_email, n.user_name, n.notification_text, template='instant')
             n.status = True
             db_session.commit()
-        except Exception:
+        except Exception as e:
+            logging.error("instant_notification_job EXCEPTION %s", e)
             db_session.rollback()
 
 
@@ -42,13 +45,14 @@ def deferred_notification_job(notif_type: str):
             if notif_type == 'received_likes':
                 cnt = len(notif_user)
                 msg = f'На ваши ревью поставили {cnt} лайков! Ждем в гости!'
-                # send_mail(n.user_email, n.user_name, msg, template='instant')
+                send_mail(n.user_email, n.user_name, msg, template='instant')
                 logging.error("received_likes email - %s - %s - %s - %s", n.user_email, n.user_name, msg, notif_type)
             elif notif_type == 'new_films':
-                # send_mail(n.user_email, n.user_name, n.notification_text, template='instant')
+                send_mail(n.user_email, n.user_name, n.notification_text, template='instant')
                 logging.error("new_films email - %s - %s - %s - %s", n.user_email, n.user_name, n.notification_text, notif_type)
             db_session.commit()
-        except Exception:
+        except Exception as e:
+            logging.error("deferred_notification_job EXCEPTION %s", e)
             db_session.rollback()
 
 

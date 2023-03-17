@@ -14,7 +14,7 @@ from core.config import settings
 from db.mongo import get_aio_motor
 
 
-class NotificationService():
+class NotificationService:
     def __init__(self, mongo: AsyncIOMotorClient):
         self.mongo = mongo
         self.db: AsyncIOMotorDatabase = self.mongo[settings.mongo_notif_db]

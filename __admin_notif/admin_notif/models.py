@@ -1,6 +1,6 @@
 from django import forms
 from djongo import models
-from djongo.models import ArrayField, Model, ObjectIdField
+from djongo.models import Model, ObjectIdField
 
 
 class CreateUser(Model):
@@ -25,7 +25,6 @@ class ReviewLike(Model):
         return str(self._id)
 
 class User_obj(Model):
-    # _id = ObjectIdField(verbose_name='notif_id')
     user_id = models.CharField(max_length=255)
 
     class Meta:
