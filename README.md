@@ -1,3 +1,5 @@
+[![Notification workflows](https://github.com/ZOMini/notifications_sprint_1/actions/workflows/python.yml/badge.svg)](https://github.com/ZOMini/notifications_sprint_1/actions/workflows/python.yml)
+
 # Для проверки:
   - https://github.com/ZOMini/notifications_sprint_1  - репозиторий
   - https://github.com/ZOMini/notifications_sprint_1/invitations - приглашение
