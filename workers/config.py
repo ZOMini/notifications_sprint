@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     SMTP_HOST = Field("smtp.mail.ru")
     SMTP_PORT = Field("465")
     SMTP_USER = Field("cx-1")
-    SMTP_PASSWORD = Field("GdnxAjVgycF94ufricER")
+    SMTP_PASSWORD = Field("qqqqqqqqqqqqqqqq")
 
     EXCHANGE = Field('notifications')
     INSTANT_QUEUE = Field('instant_events')

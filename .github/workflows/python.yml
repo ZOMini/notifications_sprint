@@ -59,6 +59,7 @@ jobs:
           push: true
           context: workers/
           tags: ${{ secrets.DOCKER_USERNAME }}/workers:latest
+          file: workers/Dockerfile_rabbit
 
   send_message:
     runs-on: ubuntu-latest
