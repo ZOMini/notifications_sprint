@@ -33,12 +33,12 @@ class Notification(Base):
     user_name = Column(String, nullable=True)
     user_email = Column(String, nullable=True)  # В нашем случае email, все описанные "notification_type", на данный момент, для работы с email.
 
-    def __init__(self, user_id: uuid,
+    def __init__(self, user_id: UUID,
                  notification_type: str,
-                 notification_text: str = None,
-                 user_name: str = None,
-                 user_email: str = None,
-                 status: str = False,
+                 notification_text: str | None = None,
+                 user_name: str | None = None,
+                 user_email: str | None = None,
+                 status: bool = False,
                  ready: bool = False):
         self.user_id = user_id
         self.notification_type = notification_type
@@ -66,7 +66,7 @@ class AdminNotifEvent(Base):
 
     def __init__(self, user_ids: list,
                  notification_type: str,
-                 notification_text: str = None,
+                 notification_text: str | None = None,
                  ready: bool = False):
         self.user_ids = user_ids
         self.notification_type = notification_type

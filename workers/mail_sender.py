@@ -2,7 +2,7 @@ import os
 import smtplib
 from email.message import EmailMessage
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 
 from config import settings as SETT
 
@@ -15,8 +15,8 @@ def send_mail(to: str, name: str, data: str, template: str):
     message["To"] = to
     message["Subject"] = 'Уведомление :)'
     env = Environment(loader=FileSystemLoader(f'{os.path.dirname(__file__)}'))
-    template = env.get_template(f'{template}.html')
-    output = template.render(**{
+    _template = env.get_template(f'{template}.html')
+    output = _template.render(**{
         'title': f'Привет, {name}!',
         'text': f'{data}',
     })

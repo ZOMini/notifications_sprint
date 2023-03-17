@@ -18,8 +18,8 @@ class OrJsonModel(BaseModel):
 class NotificationEvent(OrJsonModel):
     user_id: UUID4
     event_type: NotificationTypesEnum
-    user_name: str = None
-    user_email: str = None
+    user_name: str | None = None
+    user_email: str | None = None
 
     class Config:
         schema_extra = {
