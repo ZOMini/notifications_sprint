@@ -71,7 +71,6 @@ class ReviewService():
             connection.close()
         except Exception as e:
             logging.error('RABBIT UGC ERROR - %s', e)
-        
 
     async def _put_review_like(self, data: PostRequestReviewLike) -> HTTPException | dict[str, Any]:
         """Пока не раbочий метод. Лайкнуть ревьюв можно один раз."""

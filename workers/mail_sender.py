@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader
 from config import settings as SETT
 
 
-def send_mail(to:str, name:str, data:str, template:str):
+def send_mail(to: str, name: str, data: str, template: str):
     server = smtplib.SMTP_SSL(SETT.SMTP_HOST, SETT.SMTP_PORT)
     server.login(user=SETT.SMTP_USER, password=SETT.SMTP_PASSWORD)
     message = EmailMessage()

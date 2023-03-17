@@ -19,6 +19,7 @@ class ObjectIdAsStr(BsonObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type="string", example="")
 
+
 class DatatimeAsStr(datetime):
     @classmethod
     def __get_validators__(cls):
