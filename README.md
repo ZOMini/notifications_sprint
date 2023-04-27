@@ -3,11 +3,12 @@
 # Нотификация
 
 ## Описание
-  - Сервис нотификации отправляет сообщения пользователю на определенные события(поступающие от сервисов авторизации и UGC).
+  - Сервис нотификации отправляет сообщения пользователю на определенные события (поступающие от сервисов авторизации и UGC).
   - Сервис объединен с ранее написанными сервисами [AUTH](https://github.com/ZOMini/Auth_sprint_2) и [UGC](https://github.com/ZOMini/ugc_sprint_2)
+  - UGC(kafka, click house) отключил, так как notif + auth + kafka и click house(4-е нода) слишком много для одного docker-compose, нужно разносить на разные сервера.
 
 ## Стек
-  - RabbitMQ, Kafka, FastAPI, MongoDB, Mailhog, Flask, SQLAlchemy, Flask, aiohttp, Django
+  - RabbitMQ, Kafka, Click House, FastAPI, MongoDB, Mailhog, Flask, SQLAlchemy, Flask, aiohttp, Django
 
 ## Работа
   - docker-compose -f docker-compose-notif_new.yml up --build    все работает сходу
