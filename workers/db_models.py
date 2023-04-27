@@ -35,7 +35,7 @@ class Notification(Base):
 
     def __init__(self, user_id: UUID,
                  notification_type: str,
-                 notification_text: str | None = None,
+                 notification_text: str| None = None,
                  user_name: str | None = None,
                  user_email: str | None = None,
                  status: bool = False,

@@ -8,7 +8,7 @@ from config import settings as SETT
 
 
 def send_mail(to: str, name: str, data: str, template: str):
-    with smtplib.SMTP_SSL(SETT.SMTP_HOST, int(SETT.SMTP_PORT)) as server:
+    with smtplib.SMTP(SETT.SMTP_HOST, int(SETT.SMTP_PORT)) as server:
         server.login(user=SETT.SMTP_USER, password=SETT.SMTP_PASSWORD)
         message = EmailMessage()
         message["From"] = SETT.SMTP_USER

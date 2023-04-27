@@ -118,9 +118,9 @@ services:
     networks:
       - rabbitmq
 
-  redis:
+  redis_auth:
     image: redis:alpine
-    container_name: redis
+    container_name: redis_auth
     env_file: 
       - ./.env
     volumes:
@@ -142,7 +142,7 @@ services:
       - DB_DOCKER_HOST=auth_db
     working_dir: /flask_auth
     depends_on:
-      - redis
+      - redis_auth
       - auth_db
     ports:
       - "5000:5000"
@@ -150,30 +150,30 @@ services:
     networks:
       - rabbitmq
 
-  ugc_api:
-    build: ./ugc_api
-    container_name: ugc_api
-    env_file:
-      - .env
-    environment:
-      - RABBIT_HOST=rabbitmq
-      - MONGO_URL=mongodb://mongodb:27017
-    depends_on:
-      - mongodb
-    ports:
-      - '8000:8000'
-    networks:
-      - rabbitmq
+  # ugc_api:
+  #   build: ./ugc_api
+  #   container_name: ugc_api
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - RABBIT_HOST=rabbitmq
+  #     - MONGO_URL=mongodb://mongodb:27017
+  #   depends_on:
+  #     - mongodb
+  #   ports:
+  #     - '8000:8000'
+  #   networks:
+  #     - rabbitmq
 
-  mongodb:
-    container_name: mongodb
-    image: mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - mo_data:/mo_data
-    networks:
-      - rabbitmq
+  # mongodb:
+  #   container_name: mongodb
+  #   image: mongo
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mo_data:/mo_data
+  #   networks:
+  #     - rabbitmq
 
   mailhog:
     image: mailhog/mailhog:latest

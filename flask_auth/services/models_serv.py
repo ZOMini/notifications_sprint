@@ -154,6 +154,33 @@ class UserServ(User):
                            err=e.args), HTTP.BAD_REQUEST
 
 
+    @classmethod
+    def add_or_del_role_user_billing(cls, json: dict, add: bool = False) -> tuple[Response, HTTP]:
+        '''Метод специально для биллинга. Метод добавляет или удаляет роль пользователя.
+        Добавляет все ключи в блоклист, в обоих случаях. На выходе готовый Response.'''
+        try:
+            role = RoleServ.get_obj_by_role(json['role'])
+            user = cls.get_obj_by_id(json['user'])
+            user_agents = db_session.query(Auth.user_agent).filter(Auth.user_id == str(user.id)).distinct().all()
+            for user_agent in user_agents:
+                AuthServ.add_old_tokens_in_block(user, user_agent_hash(user_agent[0]))
+                last_auth = AuthServ.last_auth(user.id, user_agent_hash(user_agent[0]))
+                last_auth.access_token = None
+                last_auth.refresh_token = None
+            if add:
+                user.role.append(role)
+                db_session.commit()
+                return jsonify('Role added for user. Refresh user access token.'), HTTP.CREATED
+            else:
+                user.role.remove(role)
+                db_session.commit()
+                return jsonify('Remove a role from a user. All keys have been revoked'), HTTP.NO_CONTENT
+        except Exception as e:
+            db_session.rollback()
+            return jsonify(msg="Wrong role.id and user.id or see in err",
+                           err=e.args), HTTP.BAD_REQUEST
+
+
 class AuthServ(Auth):
 
     @classmethod

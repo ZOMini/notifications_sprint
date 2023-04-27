@@ -181,3 +181,52 @@ def get_user_roles(user: str):
     """
     response = UserServ.get_user_roles(user)
     return response
+
+
+@role.route('/user/roles/billing', methods=['POST', 'DELETE'])
+@jwt_required()
+@role_required('admin')
+def add_role_for_user_billing():
+    """
+    ---
+    post:
+      summary: Add role for user (need access token)
+      description: Добавляет роль пользователю. Аутентификация нужна.
+      security:
+        - jwt_key: []
+      requestBody:
+        content:
+          application/json:
+            schema: UserRoleSchema
+      responses:
+        201:
+          description: Added role for user
+        400:
+          description: BAD REQUEST.
+        422:
+          description: UNPROCESSABLE ENTITY
+      tags:
+        - Role
+    delete:
+      summary: Delete role from user (need access token)
+      description: Удалает роль (отзывает все ключи). Аутентификация нужна.
+      security:
+        - jwt_key: []
+      requestBody:
+          content:
+              application/json:
+                schema: UserRoleSchema
+      responses:
+        200:
+          description: Role delete from user.
+        400:
+          description: BAD REQUEST.
+        422:
+          description: UNPROCESSABLE ENTITY
+      tags:
+        - Role
+    """
+    add = True if request.method == 'POST' else False
+    json = request.get_json()
+    response = UserServ.add_or_del_role_user_billing(json, add)
+    return response

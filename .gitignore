@@ -141,3 +141,14 @@ Async_API_sprint_2.code-workspace
 _etl_ch/
 .env
 
+__docker-compose-all_prev_serv.yml
+__docker-compose-auth.yml
+__docker-compose-log.yml
+__docker-compose-notif.yml
+__docker-compose-ugc.yml
+__docker-compose.yml
+/__admin_notif
+/__api_notif
+/__django_admin_panel
+/__etl
+/__movies_fastapi
