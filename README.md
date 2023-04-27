@@ -1,12 +1,15 @@
 [![Notification workflows](https://github.com/ZOMini/notifications_sprint_1/actions/workflows/python.yml/badge.svg)](https://github.com/ZOMini/notifications_sprint_1/actions/workflows/python.yml)
 
-# Для проверки:
-  - https://github.com/ZOMini/notifications_sprint_1  - репозиторий
-  - https://github.com/ZOMini/notifications_sprint_1/invitations - приглашение
-  - группа 6 - Пирогов Виталий/Игорь Синякин(@ee2 @sinyakinmail - в пачке) 
+# Нотификация
 
-# Работа
-  - __временные папки и файлы пока оставил, пройдет ревью - удалю лишнее, просто вдруг пригодится.
+## Описание
+  - Сервис нотификации отправляет сообщения пользователю на определенные события(поступающие от сервисов авторизации и UGC).
+  - Сервис объединен с ранее написанными сервисами [AUTH](https://github.com/ZOMini/Auth_sprint_2) и [UGC](https://github.com/ZOMini/ugc_sprint_2)
+
+## Стек
+  - RabbitMQ, Kafka, FastAPI, MongoDB, Mailhog, Flask, SQLAlchemy, Flask, aiohttp, Django
+
+## Работа
   - docker-compose -f docker-compose-notif_new.yml up --build    все работает сходу
   - http://127.0.0.1:5000/auth/docs/v1  ~ тут можно создать пользователя/сменить пароль - полетит ивент
   - http://127.0.0.1:8000/ugc/api/openapi ~ тут можно создать ревью(нужен реальный id юзера, см. выше) и лайкнуть его - полетит ивент
@@ -14,7 +17,7 @@
   - http://127.0.0.1:15672/ ~ rabbit gui (admin/123456789)
   - http://127.0.0.1:8025/ ~ mailhog gui
 
-# Сделано
+## Сделано
   - на 08.03
     - Админка(Django)
     - API(FastApi)  
@@ -40,7 +43,7 @@
     - добавил админ панель, для создания списка пользователей и текста сообщения, по нему enrich_worker формирует данные для сендера.
     - плюс архитектура
 
-# Полезности
+## Полезности
   - docker-compose -f docker-compose-notif_new.yml up --build
   - смотрим notif_db в шеле контейнера:
     - psql -U app -h localhost -d notif_db
@@ -50,3 +53,8 @@
     - psql -U app -h localhost -d auth_db
     - SELECT * FROM users;
   - SELECT * FROM pg_catalog.pg_tables;
+
+## Для проверки:
+  - https://github.com/ZOMini/notifications_sprint_1  - репозиторий
+  - https://github.com/ZOMini/notifications_sprint_1/invitations - приглашение
+  - группа 6 - Пирогов Виталий/Игорь Синякин(@ee2 @sinyakinmail - в пачке) 
