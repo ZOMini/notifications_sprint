@@ -10,7 +10,7 @@
 ## Стек
   - RabbitMQ, Kafka, Click House, FastAPI, MongoDB, Mailhog, Flask, SQLAlchemy, Flask, aiohttp, Django
 
-## Работа
+## Запуск и URL
   - docker-compose -f docker-compose-notif_new.yml up --build    все работает сходу
   - http://127.0.0.1:5000/auth/docs/v1  ~ тут можно создать пользователя/сменить пароль - полетит ивент
   - http://127.0.0.1:8000/ugc/api/openapi ~ тут можно создать ревью(нужен реальный id юзера, см. выше) и лайкнуть его - полетит ивент
